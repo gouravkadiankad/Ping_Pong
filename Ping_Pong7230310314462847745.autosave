@@ -1,0 +1,61 @@
+screen_w = 683
+screen_h = 384
+
+ping1_x = 66/2
+ping1_y = screen_h/2-140/4
+
+ping2_x = screen_w - 66/2 - 14
+ping2_y = screen_h/2-140/4
+
+ball_x = screen_w/2 - 10
+ball_y = screen_h/2 - 10
+ball_vel = PVector(1, 1)
+
+ping1 = None
+ping2 = None
+ball = None
+background1 = None
+up = 0
+down = 0
+speed = 8
+
+def setup():
+    global ping1, ping2, ball, background1
+    # fullScreen()
+    size(screen_w, screen_h)
+    frameRate(30)
+    background1 = loadImage("Assets\Background-01.png")
+    ping1 = loadImage("Assets\Ping1.png")
+    ping2 = loadImage("Assets\Ping2.png")
+    ball = loadImage("Assets\Ball1.png")
+    
+def draw():
+    global ping1_x, ping1_y, ball_x, ball_y, up, down, speed
+    background(40, 30, 70)
+    ping1_y += (down - up) * speed
+    ball_x += ball_vel.x
+    ball_y += ball_vel.y
+    image(background1, 0, 0, background1.width/2, background1.height/2)
+    image(ping1, ping1_x, ping1_y, ping1.width/2, ping1.height/2)
+    image(ping2, ping2_x, ping2_y, ping2.width/2, ping2.height/2)
+    image(ball, ball_x, ball_y, ball.width/2, ball.height/2)
+
+def keyPressed():
+    global up, down
+    if key == CODED:
+        if keyCode == UP:
+            up = 1
+        if keyCode == DOWN:
+            down = 1
+
+def keyReleased():
+    global up, down
+    if key == CODED:
+        if keyCode == UP:
+            up = 0
+        if keyCode == DOWN:
+            down = 0
+
+def boundary_handling():
+    global ball_vel
+    pass
