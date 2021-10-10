@@ -6,10 +6,24 @@ height_ = 768/2
 
 up = 0
 down = 0
-speed = 8
+pongspeed = 6
+pingspeed = 8
 pong1 = None
 ping1 = None
 back = None
+
+
+
+
+def boundary_handling(pong):
+    if pong.x+pong.diameter >= width or pong.x <= 0:
+        pong.vel.x *= -1
+    if pong.y+pong.diameter >= height or pong.y <= 0:
+        pong.vel.y *= -1
+
+def collision_handling(ping, pong):
+    if pong.y+pong.diameter >= ping.y and pong.y+pong.diameter <= ping.y+ping.h and pong.x > ping.x+ping.w-4 and pong.x < ping.x+ping.w+4:
+        pong.vel.x *= -1
 
 
 def setup():
@@ -23,9 +37,11 @@ def setup():
     
 def draw():
     background(0)
-    pong1.x += pong1.vel.x
-    pong1.y += pong1.vel.y
-    ping1.y += (down - up) * speed
+    boundary_handling(pong1)
+    collision_handling(ping1, pong1)
+    pong1.x += pong1.vel.x * pongspeed
+    pong1.y += pong1.vel.y * pongspeed
+    ping1.y += (down - up) * pingspeed
     image(back, 0 ,0, back.width/2, back.height/2)
     ping1.draw()
     pong1.draw()
@@ -45,6 +61,3 @@ def keyReleased():
             up = 0
         if keyCode == DOWN:
             down = 0
-
-def boundary_handling():
-    pass
